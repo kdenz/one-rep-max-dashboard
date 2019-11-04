@@ -1,12 +1,22 @@
 import './App.css'
 
-import { OneRepMaxPage } from 'pages'
+import { OneRepMaxPage } from 'pages/OneRepMaxPage'
 import React from 'react'
+import { ThemeProvider } from 'styled-components'
+import { theme } from 'styles/theme'
 
-import logo from './logo.svg'
+// Add typing to the theme prop for styled-components
+type Theme = typeof theme;
+declare module "styled-components" {
+  export interface DefaultTheme extends Theme {}
+}
 
 const App: React.FC = () => {
-  return <OneRepMaxPage />;
+  return (
+    <ThemeProvider theme={theme}>
+      <OneRepMaxPage />
+    </ThemeProvider>
+  );
 };
 
 export default App;
