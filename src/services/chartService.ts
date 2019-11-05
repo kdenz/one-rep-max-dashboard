@@ -59,44 +59,68 @@ type OneRepMax = {
 
 interface ExerciseWith1RMHistory extends Exercise {
   history: OneRepMax[];
+  highest1RM: number;
 }
 
-type ExerciseDict = {
+export interface ExerciseDict {
   [exerciseId: number]: ExerciseWith1RMHistory;
-};
+}
 
-const genChartData = (exercises: Exercise[], workoutSession: SingleSet[][]) => {
-  const exerciseMap: ExerciseDict = {};
+const genExerciseDict = (
+  exercises: Exercise[],
+  workoutSession: SingleSet[][]
+) => {
+  const exerciseDict: ExerciseDict = {};
 
   // Generate initial exercise map with empty 1RM history
   exercises.forEach(exercise => {
-    exerciseMap[exercise.id] = {
+    exerciseDict[exercise.id] = {
       ...exercise,
-      history: []
+      history: [],
+      highest1RM: 0
     };
   });
 
-  // Generate 1RM history from singleSets
+  // Generate 1RM history
+  // Each workout session contains N sets
   workoutSession.forEach(sessionSets => {
     sessionSets.forEach(set => {
-      if (exerciseMap[set.exercise_id]) {
+      if (exerciseDict[set.exercise_id]) {
         // If set belongs to an existing exercise, push 1RM data to exercise
-        exerciseMap[set.exercise_id].history.push({
+        const oneRepMax = calcOneRepMax(set.weight, set.reps);
+        exerciseDict[set.exercise_id].history.push({
           date: set.performed_at,
-          value: calcOneRepMax(set.weight, set.reps)
+          value: oneRepMax
         });
+
+        // Also finds the highest 1RM per exercise and saves the highest 1RM value
+        const highest1RM = exerciseDict[set.exercise_id].highest1RM;
+        if (oneRepMax > highest1RM) {
+          exerciseDict[set.exercise_id].highest1RM = oneRepMax;
+        }
       }
     });
   });
 
-  return exerciseMap;
+  // Sort the workouts in chronological order
+  for (const key in exerciseDict) {
+    if (exerciseDict.hasOwnProperty(key)) {
+      exerciseDict[key].history.sort(
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+      );
+    }
+  }
+
+  return exerciseDict;
 };
 
 // TODO Remove hacky solution once backend chart data endpoint is implemented
-export const loadChartData = async (refresh?: boolean) => {
+export const loadExerciseDict = async (
+  refresh?: boolean
+): Promise<ExerciseDict> => {
   try {
     // Returns previously cached strings if necessary and exists
-    const cachedDataString = localStorage.getItem("chartData");
+    const cachedDataString = localStorage.getItem("exerciseDict");
     if (cachedDataString && !refresh) {
       return JSON.parse(cachedDataString);
     }
@@ -113,13 +137,12 @@ export const loadChartData = async (refresh?: boolean) => {
       workouts.map(item => get(API.singleSets(item.id)))
     );
 
-    // Create histori
-    const chartData = genChartData(exercises, singleSets);
+    // Create chart history data
+    const exerciseDict = genExerciseDict(exercises, singleSets);
 
-    localStorage.setItem("exercises", JSON.stringify(exercises));
-    localStorage.setItem("chartData", JSON.stringify(chartData));
+    localStorage.setItem("exerciseDict", JSON.stringify(exerciseDict));
 
-    return chartData;
+    return exerciseDict;
   } catch (err) {
     throw new Error(err);
   }

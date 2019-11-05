@@ -34,14 +34,15 @@ const SubTitleBar = styled.div`
 `;
 
 export interface OneRepMaxChartProps {
+  highest1RM: number;
   data: { date: string; value: number }[];
 }
 export const OneRepMaxChart: React.FC<OneRepMaxChartProps> = memo(
-  ({ data }) => (
+  ({ data, highest1RM }) => (
     <>
       <TitleBar>
         <div>One Rep Max</div>
-        <div>215.10</div>
+        <div>{highest1RM.toFixed(2)}</div>
       </TitleBar>
       <SubTitleBar>
         <div>Theoretical upper limit</div>
@@ -83,6 +84,12 @@ export const OneRepMaxChart: React.FC<OneRepMaxChartProps> = memo(
             domain={[160, 210]}
           />
           <CartesianGrid stroke={theme.grey["100"]} />
+          <Tooltip
+            formatter={value =>
+              typeof value === "number" ? value.toFixed(2) : value
+            }
+            labelFormatter={label => formatDate(label.toString(), true)}
+          />
         </AreaChart>
       </ResponsiveContainer>
     </>

@@ -1,6 +1,7 @@
-import React from 'react'
-import { Props as MenuProps, push as Menu } from 'react-burger-menu'
-import styled from 'styled-components'
+import React from "react";
+import { Props as MenuProps, push as Menu } from "react-burger-menu";
+import styled from "styled-components";
+import { useWindowSize } from "hooks/useWindowSize";
 
 const Container = styled.div`
   background: ${p => p.theme.menuBg};
@@ -9,21 +10,22 @@ const Container = styled.div`
   overflow: auto;
 `;
 
-export interface SideMenuProps extends MenuProps {
-  isDocked?: boolean;
-}
+export interface SideMenuProps extends MenuProps {}
 export const SideMenu: React.FC<SideMenuProps> = ({
   children,
-  isDocked,
+  isOpen,
   ...menuProps
 }) => {
-  if (isDocked) return <Container>{children}</Container>;
+  const { width } = useWindowSize();
+
+  if (width && width > 500) return <Container>{children}</Container>;
+
   return (
     <Menu
       {...menuProps}
       customBurgerIcon={false}
       customCrossIcon={false}
-      isOpen={true}
+      isOpen={isOpen}
     >
       <Container>{children}</Container>
     </Menu>

@@ -52,11 +52,10 @@ const SecondaryText = styled.div`
   color: ${p => p.theme.grey["500"]};
 `;
 
-type ListItem = {
+export type ListItem = {
+  id: number;
   name: string;
-  subTitle?: string;
-  weight: number;
-  unit: "lbs" | "kg";
+  highestWeight: number;
 };
 export interface ExerciseListProps {
   title: string;
@@ -80,11 +79,11 @@ export const ExerciseList: React.FC<ExerciseListProps> = ({
               <PrimaryText style={{ fontSize: "15px" }}>
                 {item.name}
               </PrimaryText>
-              <SecondaryText>{item.subTitle || "1 RM Record"}</SecondaryText>
+              <SecondaryText>{"1 RM Record"}</SecondaryText>
             </ListItem.leftCol>
             <ListItem.rightCol>
-              <PrimaryText>{item.weight}</PrimaryText>
-              <SecondaryText>{item.unit}</SecondaryText>
+              <PrimaryText>{item.highestWeight.toFixed(2)}</PrimaryText>
+              <SecondaryText>lbs</SecondaryText>
             </ListItem.rightCol>
           </ListItem.container>
         );

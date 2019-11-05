@@ -1,10 +1,14 @@
-import { ExerciseList } from "components/ExerciseList";
+import {
+  ExerciseList,
+  ExerciseListProps,
+  ListItem
+} from "components/ExerciseList";
 import { SideMenu } from "components/SideMenu";
 import { TopNavBar } from "components/TopNavBar";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { OneRepMaxChart } from "components/OneRepMaxChart";
-import { loadChartData } from "services/chartService";
+import { OneRepMaxChart, OneRepMaxChartProps } from "components/OneRepMaxChart";
+import { loadExerciseDict, ExerciseDict } from "services/chartService";
 
 const Container = styled.div`
   height: 100vh;
@@ -21,49 +25,77 @@ const Content = styled.div`
 const OUTER_CONTAINER_ID = "outer-container-id";
 const PAGE_WRAP_ID = "one-rep-mac";
 
-export const OneRepMaxPage: React.FC = () => {
-  const [data, setData] = useState([]);
+// global var for storing the exerciseDict in memory
+let exerciseDict: ExerciseDict = {};
 
+export const OneRepMaxPage: React.FC = () => {
+  const [exercises, setExercises] = useState<ExerciseListProps["data"]>([]);
+  const [chartData, setChartData] = useState<OneRepMaxChartProps["data"]>([]);
+  const [highest1RM, setHighest1RM] = useState<number>(0);
+  const [pageTitle, setPageTitle] = useState();
+  const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
+
+  // Initializes data
   useEffect(() => {
     async function loadData() {
       try {
-        const data = await loadChartData();
-        setData(data[3].history);
+        const currentDict = await loadExerciseDict();
+        exerciseDict = currentDict;
+
+        // Initializes exercise list based on exercise dict object
+        const exercises: ExerciseListProps["data"] = [];
+        for (const key in exerciseDict) {
+          if (exerciseDict.hasOwnProperty(key)) {
+            // Transform exercise dict into exercise list
+            exercises.push({
+              id: exerciseDict[key].id,
+              highestWeight: exerciseDict[key].highest1RM,
+              name: exerciseDict[key].name
+            });
+          }
+        }
+
+        setExercises(exercises);
       } catch (err) {}
     }
 
     loadData();
   }, []);
 
+  const onExerciseClick = (exercise: ListItem) => {
+    setChartData(exerciseDict[exercise.id].history);
+    setHighest1RM(exercise.highestWeight);
+    setPageTitle(exercise.name);
+    setIsSideMenuOpen(false);
+  };
+
+  const toggleSideMenu = () => {
+    setIsSideMenuOpen(prev => !prev);
+  };
+
   return (
     <Container id={OUTER_CONTAINER_ID}>
       <SideMenu
         pageWrapId={PAGE_WRAP_ID}
         outerContainerId={OUTER_CONTAINER_ID}
-        isDocked={true}
         noOverlay={true}
+        isOpen={isSideMenuOpen}
       >
         <ExerciseList
           title="Your exercises"
-          data={[
-            {
-              name: "Barbell Bench Press",
-              weight: 59.9,
-              unit: "lbs"
-            },
-            {
-              name: "Barbell Bench Press",
-              weight: 59.9,
-              unit: "lbs"
-            }
-          ]}
-          onItemClick={item => console.log(item)}
+          data={exercises}
+          onItemClick={onExerciseClick}
         />
       </SideMenu>
       <Content id={PAGE_WRAP_ID}>
-        <TopNavBar title="Exercises" />
+        <TopNavBar
+          title={pageTitle || "Please select an exercise"}
+          onMenuClick={toggleSideMenu}
+        />
         <div style={{ marginLeft: "10%" }}>
-          <OneRepMaxChart data={data} />
+          {chartData.length ? (
+            <OneRepMaxChart data={chartData} highest1RM={highest1RM} />
+          ) : null}
         </div>
       </Content>
     </Container>
