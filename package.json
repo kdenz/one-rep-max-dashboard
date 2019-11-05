@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "dayjs": "^1.8.16",
     "react": "^16.11.0",
     "react-burger-menu": "^2.6.11",
     "react-dom": "^16.11.0",
