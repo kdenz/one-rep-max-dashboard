@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-hook/window-size": "^1.0.8",
     "dayjs": "^1.8.16",
     "react": "^16.11.0",
     "react-burger-menu": "^2.6.11",
     "react-dom": "^16.11.0",
+    "react-svg": "^10.0.23",
     "recharts": "^1.8.5",
     "styled-components": "^5.0.0-rc.1",
     "typescript": "3.7.2"
