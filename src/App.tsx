@@ -1,9 +1,9 @@
-import './App.css'
+import "./App.css";
 
-import { OneRepMaxPage } from 'pages/OneRepMaxPage'
-import React from 'react'
-import { ThemeProvider } from 'styled-components'
-import { theme } from 'styles/theme'
+import { OneRepMaxPage } from "pages/OneRepMaxPage";
+import React from "react";
+import { ThemeProvider } from "styled-components";
+import { theme } from "styles/theme";
 
 // Add typing to the theme prop for styled-components
 type Theme = typeof theme;

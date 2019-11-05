@@ -1,9 +1,10 @@
 import { ExerciseList } from "components/ExerciseList";
 import { SideMenu } from "components/SideMenu";
 import { TopNavBar } from "components/TopNavBar";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { OneRepMaxChart } from "components/OneRepMaxChart";
+import { loadChartData } from "services/chartService";
 
 const Container = styled.div`
   height: 100vh;
@@ -21,6 +22,19 @@ const OUTER_CONTAINER_ID = "outer-container-id";
 const PAGE_WRAP_ID = "one-rep-mac";
 
 export const OneRepMaxPage: React.FC = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const data = await loadChartData();
+        setData(data[3].history);
+      } catch (err) {}
+    }
+
+    loadData();
+  }, []);
+
   return (
     <Container id={OUTER_CONTAINER_ID}>
       <SideMenu
@@ -49,15 +63,7 @@ export const OneRepMaxPage: React.FC = () => {
       <Content id={PAGE_WRAP_ID}>
         <TopNavBar title="Exercises" />
         <div style={{ marginLeft: "10%" }}>
-          <OneRepMaxChart
-            data={[
-              { name: "Oct 1", value: 160 },
-              { name: "Nov 1", value: 185 },
-              { name: "Dec 1", value: 195 },
-              { name: "Jan 1", value: 190 },
-              { name: "Feb 1", value: 210 }
-            ]}
-          />
+          <OneRepMaxChart data={data} />
         </div>
       </Content>
     </Container>

@@ -11,6 +11,7 @@ import {
 import styled from "styled-components";
 
 import { theme } from "styles/theme";
+import { formatDate } from "utils/date";
 
 const barCommonStyle = `
   display: flex;
@@ -33,7 +34,7 @@ const SubTitleBar = styled.div`
 `;
 
 export interface OneRepMaxChartProps {
-  data: { name: string; value: number }[];
+  data: { date: string; value: number }[];
 }
 export const OneRepMaxChart: React.FC<OneRepMaxChartProps> = memo(
   ({ data }) => (
@@ -63,11 +64,12 @@ export const OneRepMaxChart: React.FC<OneRepMaxChartProps> = memo(
             isAnimationActive={false}
           />
           <XAxis
-            dataKey="name"
+            dataKey="date"
             tickSize={20}
             tickMargin={6}
             stroke={theme.grey["100"]}
             tick={{ fill: theme.white, fontSize: "13px" }}
+            tickFormatter={date => formatDate(date)}
           />
           <YAxis
             orientation="left"
@@ -76,11 +78,11 @@ export const OneRepMaxChart: React.FC<OneRepMaxChartProps> = memo(
             tickMargin={6}
             stroke={theme.grey["100"]}
             tick={{ fill: theme.white, fontSize: "13px" }}
+            tickFormatter={weight => Math.round(weight)}
             type="number"
             domain={[160, 210]}
           />
           <CartesianGrid stroke={theme.grey["100"]} />
-          <Tooltip />
         </AreaChart>
       </ResponsiveContainer>
     </>
