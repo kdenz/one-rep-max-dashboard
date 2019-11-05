@@ -29,6 +29,7 @@ const SubTitleBar = styled.div`
   font-size: 13px;
   color: ${p => p.theme.grey["500"]};
   margin-top: 5px;
+  margin-bottom: 15px;
 `;
 
 export interface OneRepMaxChartProps {
@@ -46,7 +47,7 @@ export const OneRepMaxChart: React.FC<OneRepMaxChartProps> = memo(
         <div>lbs</div>
       </SubTitleBar>
       <ResponsiveContainer width="90%" height={300}>
-        <AreaChart data={data} margin={{ top: 20, bottom: 20 }}>
+        <AreaChart data={data} margin={{ top: 20, left: 10, bottom: 20 }}>
           <defs>
             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
               <stop offset="30%" stopColor={theme.graph} stopOpacity={1} />
