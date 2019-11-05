@@ -22,6 +22,12 @@ const ListItem = {
     margin-left: 22px;
     margin-right: 17px;
     border-bottom: ${p => p.theme.grey["200"]} 1px solid;
+
+    &:hover,
+    :focus {
+      opacity: 0.5;
+      cursor: pointer;
+    }
   `,
   bottomLine: styled.div`
     opacity: 0.2;
@@ -55,14 +61,21 @@ type ListItem = {
 export interface ExerciseListProps {
   title: string;
   data: ListItem[];
+  onItemClick: (item: ListItem) => void;
 }
-export const ExerciseList: React.FC<ExerciseListProps> = ({ title, data }) => {
+export const ExerciseList: React.FC<ExerciseListProps> = ({
+  title,
+  data,
+  onItemClick
+}) => {
+  const onClick = (item: ListItem) => () => onItemClick(item);
+
   return (
     <Container>
       <ListHeader>{title}</ListHeader>
       {data.map((item, i) => {
         return (
-          <ListItem.container key={item.name + i}>
+          <ListItem.container key={item.name + i} onClick={onClick(item)}>
             <ListItem.leftCol>
               <PrimaryText style={{ fontSize: "15px" }}>
                 {item.name}

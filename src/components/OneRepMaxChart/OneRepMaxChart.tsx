@@ -49,8 +49,8 @@ export const OneRepMaxChart: React.FC<OneRepMaxChartProps> = memo(
         <AreaChart data={data} margin={{ top: 20, bottom: 20 }}>
           <defs>
             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor={theme.graph} stopOpacity={1} />
-              <stop offset="95%" stopColor="transparent" stopOpacity={0.6} />
+              <stop offset="30%" stopColor={theme.graph} stopOpacity={1} />
+              <stop offset="100%" stopColor="transparent" />
             </linearGradient>
           </defs>
           <Area

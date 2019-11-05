@@ -43,6 +43,7 @@ export const OneRepMaxPage: React.FC = () => {
               unit: "lbs"
             }
           ]}
+          onItemClick={item => console.log(item)}
         />
       </SideMenu>
       <Content id={PAGE_WRAP_ID}>
