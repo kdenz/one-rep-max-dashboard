@@ -1,11 +1,11 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
 
 const Container = styled.div``;
 
 const ListHeader = styled.div`
   font-size: 12px;
-  color: ${p => p.theme.grey};
+  color: ${p => p.theme.grey["500"]};
   text-transform: uppercase;
   text-align: center;
   padding-top: 25px;
@@ -21,7 +21,7 @@ const ListItem = {
     font-size: 13px;
     margin-left: 22px;
     margin-right: 17px;
-    border-bottom: ${p => p.theme.lightGrey} 1px solid;
+    border-bottom: ${p => p.theme.grey["200"]} 1px solid;
   `,
   bottomLine: styled.div`
     opacity: 0.2;
@@ -43,7 +43,7 @@ const PrimaryText = styled.div`
 `;
 
 const SecondaryText = styled.div`
-  color: ${p => p.theme.grey};
+  color: ${p => p.theme.grey["500"]};
 `;
 
 type ListItem = {

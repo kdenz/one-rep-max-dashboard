@@ -4,6 +4,9 @@ export const theme = {
   detailViewBg: "#242A2E",
   menuBg: "#353533",
   white: "#fff",
-  grey: "rgba(255, 255, 255, 0.54)",
-  lightGrey: "rgba(255, 255, 255, 0.2)"
+  grey: {
+    500: "rgba(255, 255, 255, 0.54)",
+    200: "rgba(255, 255, 255, 0.2)",
+    100: "rgba(255, 255, 255, 0.1)"
+  }
 };
