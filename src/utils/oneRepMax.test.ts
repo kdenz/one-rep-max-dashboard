@@ -8,4 +8,8 @@ describe("oneRepMax", () => {
   it("should return null if reps >= 37", () => {
     expect(calcOneRepMax(10, 37)).toBe(null);
   });
+
+  it("should return null if weight or reps are negative", () => {
+    expect(calcOneRepMax(-10, -20)).toBe(null);
+  });
 });
