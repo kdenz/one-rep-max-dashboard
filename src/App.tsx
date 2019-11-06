@@ -1,5 +1,3 @@
-import "./App.css";
-
 import { OneRepMaxPage } from "pages/OneRepMaxPage";
 import React from "react";
 import { ThemeProvider } from "styled-components";
