@@ -59,6 +59,7 @@ export const OneRepMaxPage: React.FC = () => {
 
         setExercises(exercises);
       } catch (err) {
+        alert(`Oops sorry, something is wrong with the server`);
       } finally {
         setIsLoading(false);
       }
