@@ -36,7 +36,7 @@ const Overlay = styled.div<{ isActive: boolean }>`
 
 export interface SideMenuProps extends MenuProps {
   isOpen: boolean;
-  onCloseMenu: () => void;
+  onCloseMenu?: () => void;
 }
 export const SideMenu: React.FC<SideMenuProps> = memo(
   ({ children, isOpen, onCloseMenu, ...menuProps }) => {
@@ -66,7 +66,11 @@ export const SideMenu: React.FC<SideMenuProps> = memo(
         >
           {content}
         </Menu>
-        <Overlay isActive={isOpen} onClick={onCloseMenu} />
+        <Overlay
+          isActive={isOpen}
+          onClick={onCloseMenu}
+          data-testid="SideMenuOverlay"
+        />
       </>
     );
   }
