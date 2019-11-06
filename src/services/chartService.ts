@@ -76,7 +76,7 @@ export interface ExerciseDict {
  * This function creates an exercise dictionary object from fetched data
  * with key as the exercise id, say 1, and value as type ExerciseWith1RMHistory
  */
-const genExerciseDict = (
+export const genExerciseDict = (
   exercises: Exercise[],
   workoutSession: SingleSet[][]
 ) => {
