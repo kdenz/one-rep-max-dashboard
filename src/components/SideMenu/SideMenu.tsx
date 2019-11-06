@@ -18,9 +18,21 @@ const LogoContainer = styled.div<{ left: number }>`
   left: ${p => p.left}px;
 `;
 
-export interface SideMenuProps extends MenuProps {}
+const Overlay = styled.div<{ isActive: boolean }>`
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: ${p => (p.isActive ? 10 : -100)};
+`;
+
+export interface SideMenuProps extends MenuProps {
+  isOpen: boolean;
+  onCloseMenu: () => void;
+}
 export const SideMenu: React.FC<SideMenuProps> = memo(
-  ({ children, isOpen, ...menuProps }) => {
+  ({ children, isOpen, onCloseMenu, ...menuProps }) => {
     const { width } = useWindowSize();
 
     const isBigScreen = width && width > 500;
@@ -38,14 +50,17 @@ export const SideMenu: React.FC<SideMenuProps> = memo(
     if (isBigScreen) return content;
 
     return (
-      <Menu
-        {...menuProps}
-        customBurgerIcon={false}
-        customCrossIcon={false}
-        isOpen={isOpen}
-      >
-        {content}
-      </Menu>
+      <>
+        <Menu
+          {...menuProps}
+          customBurgerIcon={false}
+          customCrossIcon={false}
+          isOpen={isOpen}
+        >
+          {content}
+        </Menu>
+        <Overlay isActive={isOpen} onClick={onCloseMenu} />
+      </>
     );
   }
 );

@@ -95,6 +95,7 @@ export const OneRepMaxPage: React.FC = () => {
           outerContainerId={OUTER_CONTAINER_ID}
           noOverlay={true}
           isOpen={isSideMenuOpen}
+          onCloseMenu={toggleSideMenu}
         >
           <ExerciseList
             title="Your exercises"
