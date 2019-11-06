@@ -1,3 +1,7 @@
+/**
+ * This is a reusable component for showing a scrollable list of exercises
+ * and it should currently be used within the Side Menu.
+ */
 import React, { memo } from "react";
 import styled from "styled-components";
 

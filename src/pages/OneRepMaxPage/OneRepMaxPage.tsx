@@ -1,3 +1,7 @@
+/**
+ * This is the only page of the app so far, which wraps a side menu list of exercises
+ * around the 1RM chart page, which shows the historical 1RM chart for selected exercise
+ */
 import {
   ExerciseList,
   ExerciseListProps,
@@ -69,7 +73,9 @@ export const OneRepMaxPage: React.FC = () => {
     loadData();
   }, []);
 
+  // When user click on an exercise, close side menu and update the exercise detail page
   const onExerciseClick = useCallback((exercise: ListItem) => {
+    // Used to help smoothen transition animation a bit
     requestAnimationFrame(() => {
       setIsSideMenuOpen(false);
     });
@@ -79,6 +85,7 @@ export const OneRepMaxPage: React.FC = () => {
     setPageTitle(exercise.name);
   }, []);
 
+  // toggles on and off for the side menu
   const toggleSideMenu = useCallback(() => {
     setIsSideMenuOpen(prev => !prev);
   }, []);

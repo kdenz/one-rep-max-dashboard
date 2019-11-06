@@ -1,3 +1,8 @@
+/**
+ * This is a reusable chart component which uses recharts(react wrapper of d3.js)
+ * It's specifically for displaying historical 1RM data for one exercise
+ * in the form of a line + area chart
+ */
 import React, { memo } from "react";
 import {
   AreaChart,

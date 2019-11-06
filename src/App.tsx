@@ -9,6 +9,7 @@ declare module "styled-components" {
   export interface DefaultTheme extends Theme {}
 }
 
+// ThemeProvider is used to provide consistent color theming for children
 const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>

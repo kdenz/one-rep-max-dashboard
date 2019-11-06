@@ -1,3 +1,5 @@
+// This provides a common color theme through the app
+// And makes it easy in future to switch themes dynamically
 export const theme = {
   primary: "#FF6E60",
   graph: "#4EC183",

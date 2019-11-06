@@ -1,3 +1,10 @@
+/**
+ * This is a reusable component for Side Menu, which wraps over some children
+ * component and provide ability to open and close the side menu from parent component
+ * On bigger screens, it's automatically docked to the left
+ * On smaller screens, it's hidden by default and user will have to trigger it by
+ * pressing on the hamburger menu button on the Top nav bar
+ */
 import React, { memo } from "react";
 import { Props as MenuProps, push as Menu } from "react-burger-menu";
 import styled from "styled-components";

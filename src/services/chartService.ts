@@ -1,12 +1,17 @@
+/**
+ * This provides data fetching + transforming mechanism for getting
+ * historical 1RM data from the mocked Fitbod server hosted on Heroku
+ */
 import { calcOneRepMax } from "utils/oneRepMax";
 
-let baseUrl = "https://my-workout-turtle.herokuapp.com/api/v1";
-let options: RequestInit = {
+const baseUrl = "https://my-workout-turtle.herokuapp.com/api/v1";
+const options: RequestInit = {
   method: "GET",
   mode: "cors",
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json;charset=UTF-8",
+    // This is hardcoded for user 1 's login credentials
     Authorization: "Basic dXNlcjFAZml0Ym9kLm1lOndvcmtmaXQ="
   }
 };
@@ -18,10 +23,11 @@ const API = {
   workouts: () => `${baseUrl}/users/1/workouts.json`
 };
 
+// This is an utility function for sending get requests according to
+// the predefined options above
 export const get = async (url: string) => {
   try {
     const response = await fetch(url, options);
-    // let responseOK = response?.ok
     return await response.json();
   } catch (err) {
     throw new Error(err);
@@ -66,6 +72,10 @@ export interface ExerciseDict {
   [exerciseId: number]: ExerciseWith1RMHistory;
 }
 
+/**
+ * This function creates an exercise dictionary object from fetched data
+ * with key as the exercise id, say 1, and value as type ExerciseWith1RMHistory
+ */
 const genExerciseDict = (
   exercises: Exercise[],
   workoutSession: SingleSet[][]
@@ -115,6 +125,7 @@ const genExerciseDict = (
 };
 
 // TODO Remove hacky solution once backend chart data endpoint is implemented
+// This function fetches required data from BE in order to have the historical 1RM data
 export const loadExerciseDict = async (
   refresh?: boolean
 ): Promise<ExerciseDict> => {
@@ -140,6 +151,8 @@ export const loadExerciseDict = async (
     // Create chart history data
     const exerciseDict = genExerciseDict(exercises, singleSets);
 
+    // Stores the exercise dictionary to local storage instead of fetching it again
+    // every single time browser refreshes (I don't want to spam the server too much)
     localStorage.setItem("exerciseDict", JSON.stringify(exerciseDict));
 
     return exerciseDict;

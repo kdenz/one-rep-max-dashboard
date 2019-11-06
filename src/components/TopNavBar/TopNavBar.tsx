@@ -1,3 +1,8 @@
+/**
+ * This is a reusable component which shows the orange top nav bar within
+ * the exercise detail section. It shows the hamburger menu button only
+ * for small screens, because on larger screens SideMenu docks itself anyways
+ */
 import React, { memo } from "react";
 import styled from "styled-components";
 import Hamburger from "assets/hamburger.svg";

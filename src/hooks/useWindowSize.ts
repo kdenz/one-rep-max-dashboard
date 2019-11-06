@@ -1,3 +1,8 @@
+/**
+ * This is a hook utility function to inform react components
+ * of the current window width and height. Otherwise some logic that relies on
+ * change of width/height wouldn't update itself when user resizes the window.
+ */
 import { useState, useEffect, useCallback } from "react";
 
 export function useWindowSize() {
