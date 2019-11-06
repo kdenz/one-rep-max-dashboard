@@ -17,6 +17,10 @@ const IconButton = styled.div`
   margin-left: 20px;
 `;
 
+const Filler = styled.div`
+  width: 18px;
+`;
+
 interface TopNavBarProps {
   title: string;
   onMenuClick: () => void;
@@ -32,10 +36,10 @@ export const TopNavBar: React.FC<TopNavBarProps> = memo(
             <ReactSVG src={Hamburger} />
           </IconButton>
         ) : (
-          <div> </div>
+          <Filler />
         )}
         <div>{title}</div>
-        <div> </div>
+        <Filler />
       </Container>
     );
   }
