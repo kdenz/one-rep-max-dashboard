@@ -27,7 +27,7 @@ const Filler = styled.div`
   width: 18px;
 `;
 
-interface TopNavBarProps {
+export interface TopNavBarProps {
   title: string;
   onMenuClick: () => void;
 }
@@ -38,7 +38,7 @@ export const TopNavBar: React.FC<TopNavBarProps> = memo(
     return (
       <Container>
         {width && width < 500 ? (
-          <IconButton onClick={onMenuClick}>
+          <IconButton onClick={onMenuClick} data-testid="BurgerMenuButton">
             <ReactSVG src={Hamburger} />
           </IconButton>
         ) : (
