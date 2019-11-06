@@ -9,6 +9,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
 import { OneRepMaxChart, OneRepMaxChartProps } from "components/OneRepMaxChart";
 import { loadExerciseDict, ExerciseDict } from "services/chartService";
+import LoadingOverlay from "react-loading-overlay";
 
 const Container = styled.div`
   height: 100vh;
@@ -34,6 +35,7 @@ export const OneRepMaxPage: React.FC = () => {
   const [highest1RM, setHighest1RM] = useState<number>(0);
   const [pageTitle, setPageTitle] = useState();
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Initializes data
   useEffect(() => {
@@ -56,9 +58,13 @@ export const OneRepMaxPage: React.FC = () => {
         }
 
         setExercises(exercises);
-      } catch (err) {}
+      } catch (err) {
+      } finally {
+        setIsLoading(false);
+      }
     }
 
+    setIsLoading(true);
     loadData();
   }, []);
 
@@ -77,30 +83,36 @@ export const OneRepMaxPage: React.FC = () => {
   }, []);
 
   return (
-    <Container id={OUTER_CONTAINER_ID}>
-      <SideMenu
-        pageWrapId={PAGE_WRAP_ID}
-        outerContainerId={OUTER_CONTAINER_ID}
-        noOverlay={true}
-        isOpen={isSideMenuOpen}
-      >
-        <ExerciseList
-          title="Your exercises"
-          data={exercises}
-          onItemClick={onExerciseClick}
-        />
-      </SideMenu>
-      <Content id={PAGE_WRAP_ID}>
-        <TopNavBar
-          title={pageTitle || "Please select an exercise"}
-          onMenuClick={toggleSideMenu}
-        />
-        <div style={{ marginLeft: "10%" }}>
-          {chartData.length ? (
-            <OneRepMaxChart data={chartData} highest1RM={highest1RM} />
-          ) : null}
-        </div>
-      </Content>
-    </Container>
+    <LoadingOverlay
+      active={isLoading}
+      spinner
+      text="Initializing a lot of data..."
+    >
+      <Container id={OUTER_CONTAINER_ID}>
+        <SideMenu
+          pageWrapId={PAGE_WRAP_ID}
+          outerContainerId={OUTER_CONTAINER_ID}
+          noOverlay={true}
+          isOpen={isSideMenuOpen}
+        >
+          <ExerciseList
+            title="Your exercises"
+            data={exercises}
+            onItemClick={onExerciseClick}
+          />
+        </SideMenu>
+        <Content id={PAGE_WRAP_ID}>
+          <TopNavBar
+            title={pageTitle || "Please select an exercise"}
+            onMenuClick={toggleSideMenu}
+          />
+          <div style={{ marginLeft: "10%" }}>
+            {chartData.length ? (
+              <OneRepMaxChart data={chartData} highest1RM={highest1RM} />
+            ) : null}
+          </div>
+        </Content>
+      </Container>
+    </LoadingOverlay>
   );
 };
