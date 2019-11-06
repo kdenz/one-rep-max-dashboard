@@ -100,12 +100,12 @@ export const genExerciseDict = (
         const oneRepMax = calcOneRepMax(set.weight, set.reps);
         exerciseDict[set.exercise_id].history.push({
           date: set.performed_at,
-          value: oneRepMax
+          value: oneRepMax || 0
         });
 
         // Also finds the highest 1RM per exercise and saves the highest 1RM value
         const highest1RM = exerciseDict[set.exercise_id].highest1RM;
-        if (oneRepMax > highest1RM) {
+        if (oneRepMax && oneRepMax > highest1RM) {
           exerciseDict[set.exercise_id].highest1RM = oneRepMax;
         }
       }
