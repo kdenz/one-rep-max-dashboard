@@ -15,6 +15,7 @@ const Container = styled.div`
 
 const IconButton = styled.div`
   margin-left: 20px;
+  cursor: pointer;
 `;
 
 const Filler = styled.div`
