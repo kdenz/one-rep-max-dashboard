@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 
 const Container = styled.div``;
@@ -62,32 +62,30 @@ export interface ExerciseListProps {
   data: ListItem[];
   onItemClick: (item: ListItem) => void;
 }
-export const ExerciseList: React.FC<ExerciseListProps> = ({
-  title,
-  data,
-  onItemClick
-}) => {
-  const onClick = (item: ListItem) => () => onItemClick(item);
+export const ExerciseList: React.FC<ExerciseListProps> = memo(
+  ({ title, data, onItemClick }) => {
+    const onClick = (item: ListItem) => () => onItemClick(item);
 
-  return (
-    <Container>
-      <ListHeader>{title}</ListHeader>
-      {data.map((item, i) => {
-        return (
-          <ListItem.container key={item.name + i} onClick={onClick(item)}>
-            <ListItem.leftCol>
-              <PrimaryText style={{ fontSize: "15px" }}>
-                {item.name}
-              </PrimaryText>
-              <SecondaryText>{"1 RM Record"}</SecondaryText>
-            </ListItem.leftCol>
-            <ListItem.rightCol>
-              <PrimaryText>{item.highestWeight.toFixed(2)}</PrimaryText>
-              <SecondaryText>lbs</SecondaryText>
-            </ListItem.rightCol>
-          </ListItem.container>
-        );
-      })}
-    </Container>
-  );
-};
+    return (
+      <Container>
+        <ListHeader>{title}</ListHeader>
+        {data.map((item, i) => {
+          return (
+            <ListItem.container key={item.name + i} onClick={onClick(item)}>
+              <ListItem.leftCol>
+                <PrimaryText style={{ fontSize: "15px" }}>
+                  {item.name}
+                </PrimaryText>
+                <SecondaryText>{"1 RM Record"}</SecondaryText>
+              </ListItem.leftCol>
+              <ListItem.rightCol>
+                <PrimaryText>{item.highestWeight.toFixed(2)}</PrimaryText>
+                <SecondaryText>lbs</SecondaryText>
+              </ListItem.rightCol>
+            </ListItem.container>
+          );
+        })}
+      </Container>
+    );
+  }
+);

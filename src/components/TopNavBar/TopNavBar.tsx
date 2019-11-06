@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 import Hamburger from "assets/hamburger.svg";
 import ReactSVG from "react-svg";
@@ -21,20 +21,22 @@ interface TopNavBarProps {
   title: string;
   onMenuClick: () => void;
 }
-export const TopNavBar: React.FC<TopNavBarProps> = ({ title, onMenuClick }) => {
-  const { width } = useWindowSize();
+export const TopNavBar: React.FC<TopNavBarProps> = memo(
+  ({ title, onMenuClick }) => {
+    const { width } = useWindowSize();
 
-  return (
-    <Container>
-      {width && width < 500 ? (
-        <IconButton onClick={onMenuClick}>
-          <ReactSVG src={Hamburger} />
-        </IconButton>
-      ) : (
+    return (
+      <Container>
+        {width && width < 500 ? (
+          <IconButton onClick={onMenuClick}>
+            <ReactSVG src={Hamburger} />
+          </IconButton>
+        ) : (
+          <div> </div>
+        )}
+        <div>{title}</div>
         <div> </div>
-      )}
-      <div>{title}</div>
-      <div> </div>
-    </Container>
-  );
-};
+      </Container>
+    );
+  }
+);
