@@ -5,7 +5,7 @@ import {
 } from "components/ExerciseList";
 import { SideMenu } from "components/SideMenu";
 import { TopNavBar } from "components/TopNavBar";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
 import { OneRepMaxChart, OneRepMaxChartProps } from "components/OneRepMaxChart";
 import { loadExerciseDict, ExerciseDict } from "services/chartService";
@@ -62,16 +62,19 @@ export const OneRepMaxPage: React.FC = () => {
     loadData();
   }, []);
 
-  const onExerciseClick = (exercise: ListItem) => {
+  const onExerciseClick = useCallback((exercise: ListItem) => {
+    requestAnimationFrame(() => {
+      setIsSideMenuOpen(false);
+    });
+
     setChartData(exerciseDict[exercise.id].history);
     setHighest1RM(exercise.highestWeight);
     setPageTitle(exercise.name);
-    setIsSideMenuOpen(false);
-  };
+  }, []);
 
-  const toggleSideMenu = () => {
+  const toggleSideMenu = useCallback(() => {
     setIsSideMenuOpen(prev => !prev);
-  };
+  }, []);
 
   return (
     <Container id={OUTER_CONTAINER_ID}>
