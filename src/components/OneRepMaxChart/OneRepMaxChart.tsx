@@ -86,7 +86,7 @@ export const OneRepMaxChart: React.FC<OneRepMaxChartProps> = memo(
             tick={{ fill: theme.white, fontSize: "13px" }}
             tickFormatter={weight => Math.round(weight)}
             type="number"
-            domain={[160, 210]}
+            domain={["dataMin", "dataMax"]}
           />
           <CartesianGrid stroke={theme.grey["100"]} />
           <Tooltip

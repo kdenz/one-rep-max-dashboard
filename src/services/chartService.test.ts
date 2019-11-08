@@ -2,7 +2,7 @@ import React from "react";
 import { genExerciseDict } from "./chartService";
 
 describe("genExerciseDict", () => {
-  it("should generate exercise dict of expected format", () => {
+  it("should generate exercise dict of expected format, recording only highest 1RM per day per exercise", () => {
     const exerciseDict = genExerciseDict(
       [
         {
@@ -17,9 +17,9 @@ describe("genExerciseDict", () => {
           {
             id: 1,
             exercise_id: 1,
-            created_at: '"2019-10-15T00:05:32.000Z"',
-            updated_at: '"2019-10-15T00:05:32.000Z"',
-            performed_at: '"2019-10-15T00:05:32.000Z"',
+            created_at: "2019-10-15T00:05:32.000Z",
+            updated_at: "2019-10-15T00:05:32.000Z",
+            performed_at: "2019-10-15T00:05:32.000Z",
             reps: 30,
             weight: 30,
             workout_id: 3
@@ -27,11 +27,21 @@ describe("genExerciseDict", () => {
           {
             id: 2,
             exercise_id: 1,
-            created_at: '"2019-10-20-T00:05:32.000Z"',
-            updated_at: '"2019-10-20-T00:05:32.000Z"',
-            performed_at: '"2019-10-20-T00:05:32.000Z"',
+            created_at: "2019-10-20T00:05:32.000Z",
+            updated_at: "2019-10-20T00:05:32.000Z",
+            performed_at: "2019-10-20T00:05:32.000Z",
             reps: 30,
             weight: 50,
+            workout_id: 4
+          },
+          {
+            id: 3,
+            exercise_id: 1,
+            created_at: "2019-10-20T00:05:32.000Z",
+            updated_at: "2019-10-20T00:05:32.000Z",
+            performed_at: "2019-10-20T00:05:32.000Z",
+            reps: 30,
+            weight: 80,
             workout_id: 4
           }
         ]
@@ -44,10 +54,10 @@ describe("genExerciseDict", () => {
         name: "Lat Pulldown",
         updated_at: "2019-10-15T00:05:32.000Z",
         created_at: "2019-10-15T00:05:32.000Z",
-        highest1RM: 257.14285714285717,
+        highest1RM: 411.42857142857144,
         history: [
-          { date: '"2019-10-15T00:05:32.000Z"', value: 154.28571428571428 },
-          { date: '"2019-10-20-T00:05:32.000Z"', value: 257.14285714285717 }
+          { date: "2019-10-15T00:05:32.000Z", value: 154.28571428571428 },
+          { date: "2019-10-20T00:05:32.000Z", value: 411.42857142857144 }
         ]
       }
     });
