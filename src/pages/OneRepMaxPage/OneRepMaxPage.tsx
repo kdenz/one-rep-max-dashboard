@@ -23,6 +23,7 @@ const Content = styled.div`
   background: ${p => p.theme.detailViewBg};
   height: 100%;
   width: 100%;
+  overflow: auto;
 `;
 
 // These ids are needed for side menu to work
