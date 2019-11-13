@@ -4,36 +4,7 @@
  */
 import { calcOneRepMax } from "utils/oneRepMax";
 import { formatDate } from "utils/date";
-
-const baseUrl = "https://my-workout-turtle.herokuapp.com/api/v1";
-const options: RequestInit = {
-  method: "GET",
-  mode: "cors",
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json;charset=UTF-8",
-    // This is hardcoded for user 1 's login credentials
-    Authorization: "Basic dXNlcjFAZml0Ym9kLm1lOndvcmtmaXQ="
-  }
-};
-
-const API = {
-  singleSets: (workOutId: number) =>
-    `${baseUrl}/users/1/workouts/${workOutId}/single_sets.json`,
-  exercises: () => `${baseUrl}/exercises.json`,
-  workouts: () => `${baseUrl}/users/1/workouts.json`
-};
-
-// This is an utility function for sending get requests according to
-// the predefined options above
-export const get = async (url: string) => {
-  try {
-    const response = await fetch(url, options);
-    return await response.json();
-  } catch (err) {
-    throw new Error(err);
-  }
-};
+import { get, API } from "./common";
 
 interface CommonFields {
   id: number;
@@ -115,7 +86,7 @@ export const genExerciseDict = (
           // No prev 1RM + current 1RM is valid
           (!prevMax1RM && current1RM) ||
           // Has prev 1RM but current 1RM is larger than it
-          (prevMax1RM && (current1RM && current1RM > prevMax1RM))
+          (prevMax1RM && current1RM && current1RM > prevMax1RM)
         ) {
           // Make the current 1RM the max one for the date
           max1RMDict[set.exercise_id][day] = {
@@ -167,12 +138,6 @@ export const loadExerciseDict = async (
   refresh?: boolean
 ): Promise<ExerciseDict> => {
   try {
-    // Returns previously cached strings if necessary and exists
-    const cachedDataString = localStorage.getItem("exerciseDict");
-    if (cachedDataString && !refresh) {
-      return JSON.parse(cachedDataString);
-    }
-
     // Fetches exercises and workouts from server
     const [exercises, workouts]: [Exercise[], Workout[]] = await Promise.all([
       get(API.exercises()),
@@ -187,10 +152,6 @@ export const loadExerciseDict = async (
 
     // Create chart history data
     const exerciseDict = genExerciseDict(exercises, singleSets);
-
-    // Stores the exercise dictionary to local storage instead of fetching it again
-    // every single time browser refreshes (I don't want to spam the server too much)
-    localStorage.setItem("exerciseDict", JSON.stringify(exerciseDict));
 
     return exerciseDict;
   } catch (err) {
