@@ -5,6 +5,7 @@
 import { calcOneRepMax } from "utils/oneRepMax";
 import { formatDate } from "utils/date";
 import { get, API } from "./common";
+import { getCachedUserId } from "./authService";
 
 interface CommonFields {
   id: number;
@@ -138,16 +139,19 @@ export const loadExerciseDict = async (
   refresh?: boolean
 ): Promise<ExerciseDict> => {
   try {
+    const userId = getCachedUserId();
+    if (!userId) throw new Error("No user found");
+
     // Fetches exercises and workouts from server
     const [exercises, workouts]: [Exercise[], Workout[]] = await Promise.all([
       get(API.exercises()),
-      get(API.workouts())
+      get(API.workouts(userId))
     ]);
 
     // Fetches single sets for EACH user workout
     // WARNING if there're 100 user workouts it may lead to 100 requests at once
     const singleSets: SingleSet[][] = await Promise.all(
-      workouts.map(item => get(API.singleSets(item.id)))
+      workouts.map(item => get(API.singleSets(userId, item.id)))
     );
 
     // Create chart history data

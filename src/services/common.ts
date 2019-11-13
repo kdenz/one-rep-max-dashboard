@@ -11,11 +11,13 @@ export const getOptions = (Authorization: string): RequestInit => ({
   }
 });
 
+// API facades
 export const API = {
-  singleSets: (workOutId: number) =>
-    `${baseUrl}/users/1/workouts/${workOutId}/single_sets.json`,
+  singleSets: (userId: number, workOutId: number) =>
+    `${baseUrl}/users/${userId}/workouts/${workOutId}/single_sets.json`,
   exercises: () => `${baseUrl}/exercises.json`,
-  workouts: () => `${baseUrl}/users/1/workouts.json`
+  workouts: (userId: number) => `${baseUrl}/users/${userId}/workouts.json`,
+  users: () => `${baseUrl}/users.json`
 };
 
 // This is an utility function for sending get requests according to
