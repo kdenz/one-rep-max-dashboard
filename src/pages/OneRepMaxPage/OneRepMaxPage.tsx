@@ -67,6 +67,7 @@ export const OneRepMaxPage: React.FC = () => {
         alert(`Oops sorry, something is wrong with the server`);
       } finally {
         setIsLoading(false);
+        setIsSideMenuOpen(true);
       }
     }
 
