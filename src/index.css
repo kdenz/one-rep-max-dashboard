@@ -10,6 +10,8 @@ body {
 }
 
 html,
-body {
+body,
+#root,
+._loading_overlay_wrapper {
   height: 100%;
 }

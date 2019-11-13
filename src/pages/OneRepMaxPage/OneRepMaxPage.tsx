@@ -16,7 +16,7 @@ import { loadExerciseDict, ExerciseDict } from "services/chartService";
 import LoadingOverlay from "react-loading-overlay";
 
 const Container = styled.div`
-  height: 100vh;
+  height: 100%;
   display: flex;
 `;
 const Content = styled.div`
